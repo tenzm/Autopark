@@ -11,12 +11,12 @@ const string DBName = "test.db";
 
 
 void menu_output() {
-    cout << "Меню:" << endl;
-    cout << "1. создать\n";
-    cout << "2. просмотр\n";
-    cout << "3. удалить\n";
-    cout << "4. выход\n";
-    cout << "(2) Введите число от 1 до 4: ";
+    cout << " Меню:" << endl;
+    cout << " 1. создать\n";
+    cout << " 2. просмотр\n";
+    cout << " 3. удалить\n";
+    cout << " 4. выход\n";
+    cout << " (2) Введите число от 1 до 4: ";
 }
 
 void staff_actions(sqlite3 *db) {
@@ -38,8 +38,9 @@ void staff_actions(sqlite3 *db) {
         cout << " ВЫХОД...";
     }
     else {
-        cout << "Ошибка!";
+        cout << " Ошибка!";
     }
+    system("pause");
 }
 
 
@@ -62,15 +63,15 @@ void bus_actions(sqlite3 *db) {
         cout << " ВЫХОД...";
     }
     else {
-        cout << "Ошибка!";
+        cout << " Ошибка!";
     }
+    system("pause");
 }
 
 
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
 
     sqlite3* db;
     int rc;
@@ -82,33 +83,37 @@ int main()
         return(0);
     }
 
+    while (true) {
 
-    cout << "Информационная система поддержки работы автобусного парка.\nМеню:\n";
-    cout << "1. автобусы\n";
-    cout << "2. водители\n";
-    cout << "3. журнал рейсов\n";
-    cout << "4. выход\n";
-    cout << "(1) Введите число от 1 до 4: ";
+        system("cls");
+        setlocale(LC_ALL, "Russian");
+        cout << " Информационная система поддержки работы автобусного парка.\n Меню:\n";
+        cout << " 1. автобусы\n";
+        cout << " 2. водители\n";
+        cout << " 3. журнал рейсов\n";
+        cout << " 4. выход\n";
+        cout << " (1) Введите число от 1 до 4: ";
 
-    char* zErrMsg = 0;
-    int menu_id;
-    cin >> menu_id;
-    system("cls");
-    switch (menu_id) {
-    case 1: 
-        cout << "Автобусы" << endl;
-        bus_actions(db);
-        break;
-    case 2:
-        cout << "Водители" << endl;
-        staff_actions(db);
-        break;
-    case 3: cout << "Журнал рейсов" << endl;
-        break;
-    case 4: cout << "ВЫХОД...";
-        return 0;
-    default: cout << "Ошибка!";
-        return 1;
+        char* zErrMsg = 0;
+        int menu_id;
+        cin >> menu_id;
+        system("cls");
+        switch (menu_id) {
+        case 1:
+            cout << " Автобусы" << endl;
+            bus_actions(db);
+            break;
+        case 2:
+            cout << " Водители" << endl;
+            staff_actions(db);
+            break;
+        case 3: cout << " Журнал рейсов" << endl;
+            break;
+        case 4: cout << " ВЫХОД...";
+            return 0;
+        default: cout << "Ошибка!";
+            return 1;
+        }
     }
     
     

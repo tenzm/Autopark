@@ -22,32 +22,28 @@ const char HORIZONTAL_SPLIT_CODE = (char)196; // Символ разделите
 const char VERTICAL_SPLIT_CODE = (char)179; // Символ разделителя столбцов "│"
 
 void bus_split() {
-    cout << LEFT_HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << RIGHT_HORIZONTAL_SPLIT_CODE << endl;
+    cout << LEFT_HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << RIGHT_HORIZONTAL_SPLIT_CODE << endl;
 }
 
 
-void bus_show_row(string id, string a, string b) {
+void bus_show_row(string id, string a) {
     cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw(CELL_WIDTH - 3) << id << VERTICAL_SPLIT_CODE
-        << setw(CELL_WIDTH - 2) << a << VERTICAL_SPLIT_CODE << setw(CELL_WIDTH - 2) << b << VERTICAL_SPLIT_CODE << endl;
+        << setw(CELL_WIDTH - 2) << a << VERTICAL_SPLIT_CODE << endl;
 }
 
 void bus_show_header() {
-    cout << TOP_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_RIGHT_KORNER_CODE << endl;
+    cout << TOP_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_RIGHT_KORNER_CODE << endl;
     cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH - 1) / 2) << "ID" << setfill(' ') << setw((CELL_WIDTH - 1) / 2 - CELL_WIDTH % 2)
-        << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH) / 2 + CELL_WIDTH % 2);
+        << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH) / 2 + 4 + CELL_WIDTH % 2);
     setlocale(LC_ALL, "Russian");
-    cout << "Имя";
+    cout << "Гос. номер";
     setlocale(LC_ALL, "C");
-    cout << setfill(' ') << setw((CELL_WIDTH - 4) / 2 + 1)
-        << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH) / 2 + 2 + CELL_WIDTH % 2);
-    setlocale(LC_ALL, "Russian");
-    cout << "Фамилия";
-    setlocale(LC_ALL, "C");
-    cout << setfill(' ') << setw((CELL_WIDTH - 4) / 2 - 1) << VERTICAL_SPLIT_CODE << endl;
+    cout << setfill(' ') << setw((CELL_WIDTH - 4) / 2 -3)
+        << VERTICAL_SPLIT_CODE << endl;
 }
 
 void bus_show_footer() {
-    cout << BOTTOM_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_RIGHT_KORNER_CODE << endl;
+    cout << BOTTOM_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_RIGHT_KORNER_CODE << endl;
 }
 
 
@@ -78,7 +74,7 @@ void addBus(sqlite3* db) {
 
 static int bus_out_callback(void* data, int argc, char** argv, char** azColName) {
     bus_split();
-    bus_show_row(argv[0], argv[1],"");
+    bus_show_row(argv[0], argv[1]);
     return 0;
 }
 
