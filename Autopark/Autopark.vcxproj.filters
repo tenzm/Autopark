@@ -24,7 +24,7 @@
     <ClCompile Include="Staff.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Output.cpp">
+    <ClCompile Include="Bus.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,7 +32,7 @@
     <ClInclude Include="Staff.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Output.h">
+    <ClInclude Include="Bus.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
