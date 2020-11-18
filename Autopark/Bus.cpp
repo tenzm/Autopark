@@ -32,6 +32,9 @@ void bus_show_row(string id, string a) {
 }
 
 void bus_show_header() {
+    setlocale(LC_ALL, "Russian");
+    cout << "Список автобусов в автопарке:\n\n";
+    setlocale(LC_ALL, "C");
     cout << TOP_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_RIGHT_KORNER_CODE << endl;
     cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH - 1) / 2) << "ID" << setfill(' ') << setw((CELL_WIDTH - 1) / 2 - CELL_WIDTH % 2)
         << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH) / 2 + 4 + CELL_WIDTH % 2);
@@ -111,6 +114,9 @@ void removeBus(sqlite3* db) {
     string sql = "DELETE from " + BUSES_TABLE_NAME + " WHERE id = " + eid;
     int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
 
+    string sqlh = "DELETE from ROUTES WHERE bus_id = " + eid;
+    int hc = sqlite3_exec(db, sqlh.c_str(), NULL, NULL, &zErrMsg);
+
     if (rc != SQLITE_OK) {
         cout << "Ошибка! Вы ввели неправильный id.";
     }
@@ -118,4 +124,8 @@ void removeBus(sqlite3* db) {
         setlocale(LC_ALL, "Russian");
         cout << "\nЗапись успешно удалена!";
     }
+}
+
+string getBusesTable() {
+    return BUSES_TABLE_NAME;
 }

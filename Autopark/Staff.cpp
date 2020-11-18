@@ -22,17 +22,20 @@ const char HORIZONTAL_VERTICAL_SPLIT_CODE = (char)197; // Символ разд�
 const char HORIZONTAL_SPLIT_CODE = (char)196; // Символ разделителя двух строк "─"
 const char VERTICAL_SPLIT_CODE = (char)179; // Символ разделителя столбцов "│"
 
-void split() {
+void staff_split() {
     cout << LEFT_HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << RIGHT_HORIZONTAL_SPLIT_CODE << endl;
 }
 
 
-void show_row(string id, string a, string b) {
+void staff_show_row(string id, string a, string b) {
     cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw(CELL_WIDTH - 3) << id << VERTICAL_SPLIT_CODE
         << setw(CELL_WIDTH - 2) << a << VERTICAL_SPLIT_CODE << setw(CELL_WIDTH - 2) << b << VERTICAL_SPLIT_CODE << endl;
 }
 
-void show_header() {
+void staff_show_header() {
+    setlocale(LC_ALL, "Russian");
+    cout << "Список водителей автопарка:\n\n";
+    setlocale(LC_ALL, "C");
     cout << TOP_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_RIGHT_KORNER_CODE << endl;
     cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH - 1) / 2) << "ID" << setfill(' ') << setw((CELL_WIDTH - 1) / 2 - CELL_WIDTH % 2)
         << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH) / 2 + CELL_WIDTH % 2);
@@ -47,7 +50,7 @@ void show_header() {
     cout << setfill(' ') << setw((CELL_WIDTH - 4) / 2 - 1) << VERTICAL_SPLIT_CODE << endl;
 }
 
-void show_footer() {
+void staff_show_footer() {
     cout << BOTTOM_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_RIGHT_KORNER_CODE << endl;
 }
 
@@ -81,8 +84,14 @@ void addStaff(sqlite3* db) {
 }
 
 static int staff_out_callback(void* data, int argc, char** argv, char** azColName) {
-    split();
-    show_row(argv[0], argv[1], argv[2]);
+    staff_split();
+    staff_show_row(argv[0], argv[1], argv[2]);
+    return 0;
+}
+
+
+static int name_out_callback(void* data, int argc, char** argv, char** azColName) {
+    cout << argv[0] << " " << argv[1];
     return 0;
 }
 
@@ -98,9 +107,9 @@ void getStaffList(sqlite3* db) {
 
     setlocale(LC_ALL, "C");
     cout << "\n";
-    show_header(); // Печать шапки таблицы
+    staff_show_header(); // Печать шапки таблицы
     int rc = sqlite3_exec(db, sql.c_str(), staff_out_callback, NULL, &zErrMsg);
-    show_footer();
+    staff_show_footer();
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "SQL error: %s\n", zErrMsg);
@@ -119,6 +128,9 @@ void removeStaff(sqlite3* db) {
     string sql = "DELETE from " + STAFF_TABLE_NAME + " WHERE id = " + eid;
     int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
 
+    string sqlh = "DELETE from ROUTES WHERE staff_id = " + eid;
+    int hc = sqlite3_exec(db, sqlh.c_str(), NULL, NULL, &zErrMsg);
+
     if (rc != SQLITE_OK) {
         cout << "Ошибка! Вы ввели неправильный id.";
     }
@@ -126,4 +138,8 @@ void removeStaff(sqlite3* db) {
         setlocale(LC_ALL, "Russian");
         cout << "\nЗапись успешно удалена!";
     }
+}
+
+string getStaffTable() {
+    return STAFF_TABLE_NAME;
 }

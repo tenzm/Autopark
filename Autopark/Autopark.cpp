@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <Staff.h>
 #include <Bus.h>
+#include <Route.h>
 
 using namespace std;
 
@@ -15,7 +16,7 @@ void menu_output() {
     cout << " 1. создать\n";
     cout << " 2. просмотр\n";
     cout << " 3. удалить\n";
-    cout << " 4. выход\n";
+    cout << " 4. назад\n";
     cout << " (2) Введите число от 1 до 4: ";
 }
 
@@ -35,7 +36,7 @@ void staff_actions(sqlite3 *db) {
         removeStaff(db);
     }
     else if (edit_id == 4) {
-        cout << " ВЫХОД...";
+        cout << " Возвращение на предыдущую страницу...";
     }
     else {
         cout << " Ошибка!";
@@ -60,7 +61,31 @@ void bus_actions(sqlite3 *db) {
         removeBus(db);
     }
     else if (edit_id == 4) {
-        cout << " ВЫХОД...";
+        cout << " Возвращение на предыдущую страницу...";
+    }
+    else {
+        cout << " Ошибка!";
+    }
+    system("pause");
+}
+
+void route_actions(sqlite3* db) {
+    menu_output();
+    int edit_id;
+    cin >> edit_id;
+    system("cls");
+
+    if (edit_id == 1) {
+        addRoute(db);
+    }
+    else if (edit_id == 2) {
+        getRouteList(db);
+    }
+    else if (edit_id == 3) {
+        removeRoute(db);
+    }
+    else if (edit_id == 4) {
+        cout << " Возвращение на предыдущую страницу...";
     }
     else {
         cout << " Ошибка!";
@@ -107,7 +132,9 @@ int main()
             cout << " Водители" << endl;
             staff_actions(db);
             break;
-        case 3: cout << " Журнал рейсов" << endl;
+        case 3: 
+            cout << " Рейсы" << endl;
+            route_actions(db);
             break;
         case 4: cout << " ВЫХОД...";
             return 0;
