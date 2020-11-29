@@ -2,6 +2,7 @@
 #include <string>
 #include <sqlite3.h>
 #include <iomanip>
+#include <Format.h>
 
 using namespace std;
 
@@ -27,8 +28,8 @@ void bus_split() {
 
 
 void bus_show_row(string id, string a) {
-    cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw(CELL_WIDTH - 3) << id << VERTICAL_SPLIT_CODE
-        << setw(CELL_WIDTH - 2) << a << VERTICAL_SPLIT_CODE << endl;
+    cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw(CELL_WIDTH - 3) << cell_format(id, CELL_WIDTH) << VERTICAL_SPLIT_CODE
+        << setw(CELL_WIDTH - 2) << cell_format(a, CELL_WIDTH) << VERTICAL_SPLIT_CODE << endl;
 }
 
 void bus_show_header() {
@@ -88,8 +89,6 @@ void getBusesList(sqlite3* db) {
 
     /* Execute SQL statement */
 
-    const char* data = "Callback function called";
-
 
     setlocale(LC_ALL, "C");
     cout << "\n";
@@ -109,8 +108,12 @@ void removeBus(sqlite3* db) {
     char* zErrMsg = 0;
     string eid;
     setlocale(LC_ALL, "Russian");
-    cout << "\nВведите id для удаления: ";
+    cout << "\nВведите id для удаления (-1 для отмены): ";
     cin >> eid;
+    if (eid == "-1") {
+        cout << "Удаление отменено.\n";
+        return;
+    }
     string sql = "DELETE from " + BUSES_TABLE_NAME + " WHERE id = " + eid;
     int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
 

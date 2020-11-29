@@ -142,12 +142,14 @@
   <ItemGroup>
     <ClCompile Include="Autopark.cpp" />
     <ClCompile Include="Bus.cpp" />
+    <ClCompile Include="Format.cpp" />
     <ClCompile Include="Routes.cpp" />
     <ClCompile Include="sqlite3.c" />
     <ClCompile Include="Staff.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bus.h" />
+    <ClInclude Include="Format.h" />
     <ClInclude Include="Route.h" />
     <ClInclude Include="Staff.h" />
   </ItemGroup>

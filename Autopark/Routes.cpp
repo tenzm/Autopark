@@ -4,12 +4,11 @@
 #include <iomanip>
 #include <Bus.h>
 #include <Staff.h>
+#include <Format.h>
 using namespace std;
 
 
-using namespace std;
-
-const int CELL_WIDTH = 20; // Ширина ячейки таблицы
+const int CELL_WIDTH = 18; // Ширина ячейки таблицы
 
 const char TOP_LEFT_KORNER_CODE = (char)218; // Символ верхнего левого угла "┌"
 const char TOP_RIGHT_KORNER_CODE = (char)191; // Символ верхнего правого угла "┐"
@@ -25,15 +24,17 @@ const char VERTICAL_SPLIT_CODE = (char)179; // Символ разделител
 
 void route_split() {
     cout << LEFT_HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << HORIZONTAL_VERTICAL_SPLIT_CODE;
-    cout << HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << RIGHT_HORIZONTAL_SPLIT_CODE << endl;
+    cout << HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << RIGHT_HORIZONTAL_SPLIT_CODE << endl;
 
 }
 
-void route_show_row(string id, string a, string b, string c, string d) {
-    cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw(CELL_WIDTH - 3) << id << VERTICAL_SPLIT_CODE
-        << setw(CELL_WIDTH - 2) << a << VERTICAL_SPLIT_CODE << setw(CELL_WIDTH - 2) << b << VERTICAL_SPLIT_CODE;
-    cout << " " << setfill(' ') << setw(CELL_WIDTH - 3) << c << VERTICAL_SPLIT_CODE
-        << setw(CELL_WIDTH - 2) << d << VERTICAL_SPLIT_CODE << endl;
+void route_show_row(string id, string a, string b, string c, string d, string e, string f) {
+    cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw(CELL_WIDTH - 3) << cell_format(id, CELL_WIDTH) << VERTICAL_SPLIT_CODE
+        << setw(CELL_WIDTH - 2) << cell_format(a, CELL_WIDTH) << VERTICAL_SPLIT_CODE << setw(CELL_WIDTH - 2) << cell_format(b, CELL_WIDTH) << VERTICAL_SPLIT_CODE;
+    cout << " " << setfill(' ') << setw(CELL_WIDTH - 3) << cell_format(e, CELL_WIDTH) << VERTICAL_SPLIT_CODE
+        << setw(CELL_WIDTH - 2) << cell_format(f, CELL_WIDTH) << VERTICAL_SPLIT_CODE;
+    cout << " " << setfill(' ') << setw(CELL_WIDTH - 3) << cell_format(c, CELL_WIDTH)<< VERTICAL_SPLIT_CODE
+        << setw(CELL_WIDTH - 2) << cell_format(d, CELL_WIDTH) << VERTICAL_SPLIT_CODE << endl;
 }
 
 void route_show_header() {
@@ -41,7 +42,7 @@ void route_show_header() {
     cout << "Список маршрутов:\n\n";
     setlocale(LC_ALL, "C");
     cout << TOP_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_VERTICAL_SPLIT_CODE;
-    cout << HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_RIGHT_KORNER_CODE << endl;
+    cout << HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_RIGHT_KORNER_CODE << endl;
 
     cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH - 1) / 2) << "ID" << setfill(' ') << setw((CELL_WIDTH - 1) / 2 - CELL_WIDTH % 2)
         << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH) / 2 + CELL_WIDTH % 2 + 3);
@@ -56,22 +57,31 @@ void route_show_header() {
     cout << setfill(' ') << setw((CELL_WIDTH - 4) / 2 - 1) << VERTICAL_SPLIT_CODE;
     cout << setfill(' ') << setw((CELL_WIDTH - 4) / 2 + 7);
     setlocale(LC_ALL, "Russian");
-    cout << "Отправление";
+    cout << "Пункт отпр.";
     setlocale(LC_ALL, "C");
-    cout << setfill(' ') << setw((CELL_WIDTH - 4) / 2 + -4)
+    cout << setfill(' ') << setw((CELL_WIDTH - 4) / 2 + -4 + CELL_WIDTH % 2)
         << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH) / 2 + 4 + CELL_WIDTH % 2);
     setlocale(LC_ALL, "Russian");
-    cout << "Прибытие";
+    cout << "Пункт приб.";
+    setlocale(LC_ALL, "C");
+    cout << setfill(' ') << setw((CELL_WIDTH - 4) / 2 + -3)
+        << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH) / 2 + 4 + CELL_WIDTH % 2);
+    setlocale(LC_ALL, "Russian");
+    cout << "Время отпр.";
+    setlocale(LC_ALL, "C");
+    cout << setfill(' ') << setw((CELL_WIDTH - 4) / 2 + -3)
+        << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH) / 2 + 4 + CELL_WIDTH % 2);
+    setlocale(LC_ALL, "Russian");
+    cout << "Время приб.";
     setlocale(LC_ALL, "C");
     cout << setfill(' ') << setw((CELL_WIDTH - 4) / 2 - 3) << VERTICAL_SPLIT_CODE << endl;
 }
 
 void route_show_footer() {
     cout << BOTTOM_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_VERTICAL_SPLIT_CODE;
-    cout << HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_RIGHT_KORNER_CODE << endl;
+    cout << HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_RIGHT_KORNER_CODE << endl;
 
 }
-
 
 
 const string ROUTES_TABLE_NAME = "ROUTES";
@@ -89,17 +99,23 @@ void addRoute(sqlite3* db) {
     string busID;
     string departureTime;
     string arrivalTime;
+    string departurePlace;
+    string arrivalPlace;
     setlocale(LC_ALL, "Russian");
     cout << "Введите табельный номер водителя: ";
     cin >> tabID;
     cout << "Введите ID автобуса: ";
     cin >> busID;
+    cout << "Укажите пункт отправления: ";
+    cin >> departurePlace;
+    cout << "Укажите пункт прибытия: ";
+    cin >> arrivalPlace;
     cout << "Укажите время отправления: ";
     cin >> departureTime;
     cout << "Укажите время прибытия: ";
     cin >> arrivalTime;
 
-    string sql = "INSERT INTO " + ROUTES_TABLE_NAME + " (staff_id, bus_id, departure_time, arrival_time) VALUES ('" + tabID + "','" + busID + "','" + departureTime + "','" + arrivalTime + "')";
+    string sql = "INSERT INTO " + ROUTES_TABLE_NAME + " (staff_id, bus_id, departure_time, arrival_time, departure_place, arrival_place) VALUES ('" + tabID + "','" + busID + "','" + departureTime + "','" + arrivalTime + "','" + departurePlace + "','" + arrivalPlace + "')";
 
     setlocale(LC_ALL, "C");
     cout << "\n";
@@ -141,7 +157,7 @@ static int route_out_callback(void* data, int argc, char** argv, char** azColNam
 
     sqlite3_finalize(stmt);
     route_split();
-    route_show_row(argv[0], fullname, bus_name, argv[3], argv[4]);
+    route_show_row(argv[0], fullname, bus_name, argv[3], argv[4], argv[5], argv[6]);
     return 0;
 }
 
@@ -169,8 +185,12 @@ void removeRoute(sqlite3* db) {
     char* zErrMsg = 0;
     string eid;
     setlocale(LC_ALL, "Russian");
-    cout << "\nВведите id для удаления: ";
+    cout << "\nВведите id для удаления (-1 для отмены): ";
     cin >> eid;
+    if (eid == "-1") {
+        cout << "Удаление отменено.\n";
+        return;
+    }
     string sql = "DELETE from " + ROUTES_TABLE_NAME + " WHERE id = " + eid;
     int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
 

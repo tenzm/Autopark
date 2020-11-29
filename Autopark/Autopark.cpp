@@ -3,13 +3,16 @@
 #include <string>
 #include <iomanip>
 #include <Staff.h>
+#include <fstream>
 #include <Bus.h>
 #include <Route.h>
 
 using namespace std;
 
-const string DBName = "test.db";
-
+const string DBName = "buspark.db";
+const string CreateBus = "CREATE TABLE \"buses\" (\"id\" INTEGER UNIQUE, \"car_number\" TEXT, PRIMARY KEY(\"id\" AUTOINCREMENT))";
+const string CreateStaff = "CREATE TABLE \"staff\" (\"id\" INTEGER UNIQUE, \"firstname\" TEXT, \"secondname\" TEXT, PRIMARY KEY(\"id\" AUTOINCREMENT))";
+const string CreateRoutes = "CREATE TABLE \"routes\" (\"id\" INTEGER UNIQUE, \"staff_id\" TEXT, \"bus_id\" TEXT, \"departure_time\" TEXT, \"arrival_time\" TEXT, \"departure_place\" TEXT, \"arrival_place\" TEXT,  PRIMARY KEY(\"id\" AUTOINCREMENT))";
 
 void menu_output() {
     cout << " Меню:" << endl;
@@ -93,19 +96,42 @@ void route_actions(sqlite3* db) {
     system("pause");
 }
 
-
-
 int main()
 {
+    setlocale(LC_ALL, "Russian");
+    bool db_exist = true;
+
+    ifstream file(DBName);
+    if (!file) {
+        cout << "База данных не найдена. Хотите ли вы её создать? (Y/n): ";
+        string sup;
+        cin >> sup;
+        if (sup != "Y" && sup != "y") { 
+            cout << "Выход из программы...\n";
+            return 1; 
+        }
+        db_exist = false;
+    }
+
 
     sqlite3* db;
     int rc;
+    char* zErrMsg = 0;
+
 
     rc = sqlite3_open(DBName.c_str(), &db);
 
     if (rc) {
         fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         return(0);
+    }
+
+    if (!db_exist) {
+        sqlite3_exec(db, CreateBus.c_str(), NULL, NULL, &zErrMsg);
+        sqlite3_exec(db, CreateStaff.c_str(), NULL, NULL, &zErrMsg);
+        sqlite3_exec(db, CreateRoutes.c_str(), NULL, NULL, &zErrMsg);
+        cout << "База данных " << DBName << " успешно создана!\n";
+        system("pause");
     }
 
     while (true) {
@@ -119,7 +145,6 @@ int main()
         cout << " 4. выход\n";
         cout << " (1) Введите число от 1 до 4: ";
 
-        char* zErrMsg = 0;
         int menu_id;
         cin >> menu_id;
         system("cls");
@@ -143,10 +168,5 @@ int main()
         }
     }
     
-    
-
-
-    
-
     sqlite3_close(db);
 }
