@@ -23,20 +23,20 @@ void menu_output() {
     cout << " (2) Введите число от 1 до 4: ";
 }
 
-void staff_actions(sqlite3 *db) {
-    menu_output();
+void staff_actions(sqlite3 *db) { // Действия с водителями
+    menu_output(); // Вывод подменю
     int edit_id;
     cin >> edit_id;
     system("cls");
 
     if (edit_id == 1) {
-        addStaff(db);
+        addStaff(db); // Добавление водителя
     }
     else if (edit_id == 2) {
-        getStaffList(db);
+        getStaffList(db); // Получение списка водителей и его печать
     }
     else if (edit_id == 3) {
-        removeStaff(db);
+        removeStaff(db); // Удаление водителя из списка
     }
     else if (edit_id == 4) {
         cout << " Возвращение на предыдущую страницу...";
@@ -48,22 +48,22 @@ void staff_actions(sqlite3 *db) {
 }
 
 
-void bus_actions(sqlite3 *db) {
-    menu_output();
+void bus_actions(sqlite3 *db) { // Действия с автобусами
+    menu_output(); // Вывод подменю
     int edit_id;
     cin >> edit_id;
     system("cls");
 
     if (edit_id == 1) {
-        addBus(db);
+        addBus(db); // Добавление автобуса
     }
     else if (edit_id == 2) {
-        getBusesList(db);
+        getBusesList(db); // Получение списка автобусов и его вывод
     }
     else if (edit_id == 3) {
-        removeBus(db);
+        removeBus(db); // Удаление автобуса из списка
     }
-    else if (edit_id == 4) {
+    else if (edit_id == 4) { // Возврат назад
         cout << " Возвращение на предыдущую страницу...";
     }
     else {
@@ -72,22 +72,22 @@ void bus_actions(sqlite3 *db) {
     system("pause");
 }
 
-void route_actions(sqlite3* db) {
-    menu_output();
+void route_actions(sqlite3* db) { // Действия с маршрутами
+    menu_output(); // Вывод подменю
     int edit_id;
     cin >> edit_id;
     system("cls");
 
     if (edit_id == 1) {
-        addRoute(db);
+        addRoute(db); // ДОбавление маршрута
     }
     else if (edit_id == 2) {
-        getRouteList(db);
+        getRouteList(db); // Получение списка автобусов и их вывод
     }
     else if (edit_id == 3) {
-        removeRoute(db);
+        removeRoute(db); // Удаление списка автобусов
     }
-    else if (edit_id == 4) {
+    else if (edit_id == 4) { // Возврат назад
         cout << " Возвращение на предыдущую страницу...";
     }
     else {
@@ -99,14 +99,14 @@ void route_actions(sqlite3* db) {
 int main()
 {
     setlocale(LC_ALL, "Russian");
-    bool db_exist = true;
+    bool db_exist = true; // Наличие файла базы данных
 
     ifstream file(DBName);
-    if (!file) {
+    if (!file) { // Если база данных не найдена
         cout << "База данных не найдена. Хотите ли вы её создать? (Y/n): ";
         string sup;
         cin >> sup;
-        if (sup != "Y" && sup != "y") { 
+        if (sup != "Y" && sup != "y") { // Предложение создать базу данных
             cout << "Выход из программы...\n";
             return 1; 
         }
@@ -119,14 +119,14 @@ int main()
     char* zErrMsg = 0;
 
 
-    rc = sqlite3_open(DBName.c_str(), &db);
+    rc = sqlite3_open(DBName.c_str(), &db); // Открытие базы данных
 
-    if (rc) {
-        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+    if (rc) { // Вывод ошибок БД
+        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db)); 
         return(0);
     }
 
-    if (!db_exist) {
+    if (!db_exist) { // Если БД пустая, то создаем в ней таблицы
         sqlite3_exec(db, CreateBus.c_str(), NULL, NULL, &zErrMsg);
         sqlite3_exec(db, CreateStaff.c_str(), NULL, NULL, &zErrMsg);
         sqlite3_exec(db, CreateRoutes.c_str(), NULL, NULL, &zErrMsg);
@@ -148,18 +148,20 @@ int main()
         int menu_id;
         cin >> menu_id;
         system("cls");
+
+        // Вывод главного меню
         switch (menu_id) {
         case 1:
             cout << " Автобусы" << endl;
-            bus_actions(db);
+            bus_actions(db); // Действия с автобусами
             break;
         case 2:
             cout << " Водители" << endl;
-            staff_actions(db);
+            staff_actions(db); // Действия с водителями
             break;
         case 3: 
             cout << " Рейсы" << endl;
-            route_actions(db);
+            route_actions(db);  // Действия с рейсами
             break;
         case 4: cout << " ВЫХОД...";
             return 0;

@@ -54,7 +54,7 @@ void bus_show_footer() {
 
 const string BUSES_TABLE_NAME = "BUSES";
 
-void addBus(sqlite3* db) {
+void addBus(sqlite3* db) { // Добавление нового автобуса
     char* zErrMsg = 0;
     string car_number;
     cout << "Введите гос. номер автомобиля: ";
@@ -64,9 +64,9 @@ void addBus(sqlite3* db) {
 
     setlocale(LC_ALL, "C");
     cout << "\n";
-    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
+    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg); // Внесение данных в БД
 
-    if (rc != SQLITE_OK) {
+    if (rc != SQLITE_OK) { // Вывод ошибок, если они присутствуют
         fprintf(stderr, "SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
     }
@@ -76,34 +76,31 @@ void addBus(sqlite3* db) {
     }
 }
 
-static int bus_out_callback(void* data, int argc, char** argv, char** azColName) {
-    bus_split();
-    bus_show_row(argv[0], argv[1]);
+static int bus_out_callback(void* data, int argc, char** argv, char** azColName) { // Обработчик вывода данных из БД
+    bus_split(); // Печать разделительной линии
+    bus_show_row(argv[0], argv[1]); // Печать ряда элементов
     return 0;
 }
 
-void getBusesList(sqlite3* db) {
+void getBusesList(sqlite3* db) { // Получить все данные об автобусах
     char* zErrMsg = 0;
 
     string sql = "SELECT * from " + BUSES_TABLE_NAME;
 
-    /* Execute SQL statement */
-
-
     setlocale(LC_ALL, "C");
     cout << "\n";
     bus_show_header(); // Печать шапки таблицы
-    int rc = sqlite3_exec(db, sql.c_str(), bus_out_callback, NULL, &zErrMsg);
-    bus_show_footer();
+    int rc = sqlite3_exec(db, sql.c_str(), bus_out_callback, NULL, &zErrMsg); // Получение списка автобусов
+    bus_show_footer(); // Печать подвала таблицы
 
-    if (rc != SQLITE_OK) {
+    if (rc != SQLITE_OK) { // Вывод ошибок, если они присутствуют
         fprintf(stderr, "SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
     }
 
 }
 
-void removeBus(sqlite3* db) {
+void removeBus(sqlite3* db) { // Удаление автобуса из БД
     getBusesList(db);
     char* zErrMsg = 0;
     string eid;
@@ -115,10 +112,10 @@ void removeBus(sqlite3* db) {
         return;
     }
     string sql = "DELETE from " + BUSES_TABLE_NAME + " WHERE id = " + eid;
-    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
+    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg); // Удаление автобуса из БД
 
     string sqlh = "DELETE from ROUTES WHERE bus_id = " + eid;
-    int hc = sqlite3_exec(db, sqlh.c_str(), NULL, NULL, &zErrMsg);
+    int hc = sqlite3_exec(db, sqlh.c_str(), NULL, NULL, &zErrMsg); // Удаление всех маршрутов, связанных с данным автобусом
 
     if (rc != SQLITE_OK) {
         cout << "Ошибка! Вы ввели неправильный id.";
@@ -129,6 +126,6 @@ void removeBus(sqlite3* db) {
     }
 }
 
-string getBusesTable() {
+string getBusesTable() { // Получить имя таблицы в БД
     return BUSES_TABLE_NAME;
 }

@@ -86,13 +86,13 @@ void route_show_footer() {
 
 const string ROUTES_TABLE_NAME = "ROUTES";
 
-void addRoute(sqlite3* db) {
+void addRoute(sqlite3* db) { // Добавление маршрута в БД
 
     cout << "Для создания маршрута необходимо прикрепить водителя к автобусу\n";
 
-    getStaffList(db);
+    getStaffList(db); // Получение списка водителей
     cout << "\n";
-    getBusesList(db);
+    getBusesList(db); // Получение списка автобусов
 
     char* zErrMsg = 0;
     string tabID;
@@ -115,13 +115,13 @@ void addRoute(sqlite3* db) {
     cout << "Укажите время прибытия: ";
     cin >> arrivalTime;
 
-    string sql = "INSERT INTO " + ROUTES_TABLE_NAME + " (staff_id, bus_id, departure_time, arrival_time, departure_place, arrival_place) VALUES ('" + tabID + "','" + busID + "','" + departureTime + "','" + arrivalTime + "','" + departurePlace + "','" + arrivalPlace + "')";
+    string sql = "INSERT INTO " + ROUTES_TABLE_NAME + " (staff_id, bus_id, departure_time, arrival_time, departure_place, arrival_place) VALUES ('" + tabID + "','" + busID + "','" + departureTime + "','" + arrivalTime + "','" + departurePlace + "','" + arrivalPlace + "')"; // Формирование SQL запроса
 
     setlocale(LC_ALL, "C");
     cout << "\n";
-    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
+    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg); // Выполнение SQL запроса
 
-    if (rc != SQLITE_OK) {
+    if (rc != SQLITE_OK) { // Печать ошибок, если они присутствуют
         fprintf(stderr, "SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
     }
@@ -131,56 +131,54 @@ void addRoute(sqlite3* db) {
     }
 }
 
-static int route_out_callback(void* data, int argc, char** argv, char** azColName) {
+static int route_out_callback(void* data, int argc, char** argv, char** azColName) { // Обработчик вывода данных из БД
     sqlite3 *db = (sqlite3*)data;
-    string staff_sql = "SELECT firstname, secondname from STAFF WHERE id = " + string(argv[1]);
-    string bus_sql = "SELECT car_number from BUSES WHERE id = " + string(argv[2]);
+    string staff_sql = "SELECT firstname, secondname from STAFF WHERE id = " + string(argv[1]); // Формирование запроса на получение данных о водителе
+    string bus_sql = "SELECT car_number from BUSES WHERE id = " + string(argv[2]); // Формирование запроса на получение данных об автобусе
 
     /* Execute SQL statement */
 
     setlocale(LC_ALL, "C");
 
     sqlite3_stmt* stmt;
-    string fullname = "";
+    string fullname = ""; // Полное имя
 
-    sqlite3_prepare(db, staff_sql.c_str(), 1000, &stmt, NULL);//preparing the statement
+    sqlite3_prepare(db, staff_sql.c_str(), 1000, &stmt, NULL); // Готовимся к выполнению запроса
 
-    sqlite3_step(stmt);
-    string firstname((char*)sqlite3_column_text(stmt, 0));
-    string secondname((char*)sqlite3_column_text(stmt, 1));
+    sqlite3_step(stmt); // Считываем первую группу элементов
+    string firstname((char*)sqlite3_column_text(stmt, 0)); // Получаем имя водителя
+    string secondname((char*)sqlite3_column_text(stmt, 1)); // Получаем фамилию водителя
     fullname = firstname + " " + secondname;
 
-    sqlite3_prepare(db, bus_sql.c_str(), 1000, &stmt, NULL);//preparing the statement
+    sqlite3_prepare(db, bus_sql.c_str(), 1000, &stmt, NULL);// Готовимся к выполнению запроса
 
-    sqlite3_step(stmt);
-    string bus_name((char*)sqlite3_column_text(stmt, 0));
+    sqlite3_step(stmt);// Считываем первую группу элементов
+    string bus_name((char*)sqlite3_column_text(stmt, 0)); // Получаем номер автобуса
 
-    sqlite3_finalize(stmt);
-    route_split();
-    route_show_row(argv[0], fullname, bus_name, argv[3], argv[4], argv[5], argv[6]);
+    sqlite3_finalize(stmt); // Завершаем считывание
+    route_split(); // Печатаем разделители
+    route_show_row(argv[0], fullname, bus_name, argv[3], argv[4], argv[5], argv[6]); // Печатаем данные
     return 0;
 }
 
-void getRouteList(sqlite3* db) {
+void getRouteList(sqlite3* db) { // Получение списка маршрутов
     char* zErrMsg = 0;
 
-    string sql = "SELECT * from " + ROUTES_TABLE_NAME;
-    
-
+    string sql = "SELECT * from " + ROUTES_TABLE_NAME; // Формирование SQL запроса
 
     route_show_header(); // Печать шапки таблицы
 
-    int rc = sqlite3_exec(db, sql.c_str(), route_out_callback, (void*)db, &zErrMsg);
-    route_show_footer();
+    int rc = sqlite3_exec(db, sql.c_str(), route_out_callback, (void*)db, &zErrMsg); // Выполнение SQL запроса
+    route_show_footer(); // Печать подвала таблицы
 
-    if (rc != SQLITE_OK) {
+    if (rc != SQLITE_OK) { // Выводим ошибки, если они есть
         fprintf(stderr, "SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
     }
 
 }
 
-void removeRoute(sqlite3* db) {
+void removeRoute(sqlite3* db) { // Удаление маршрута
     getRouteList(db);
     char* zErrMsg = 0;
     string eid;
@@ -191,10 +189,10 @@ void removeRoute(sqlite3* db) {
         cout << "Удаление отменено.\n";
         return;
     }
-    string sql = "DELETE from " + ROUTES_TABLE_NAME + " WHERE id = " + eid;
-    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
+    string sql = "DELETE from " + ROUTES_TABLE_NAME + " WHERE id = " + eid; // Формирование SQL запроса
+    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg); // Выполнение SQL запроса
 
-    if (rc != SQLITE_OK) {
+    if (rc != SQLITE_OK) { // Выводим ошибки, если они есть
         cout << "Ошибка! Вы ввели неправильный id.";
     }
     else {

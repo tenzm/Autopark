@@ -59,7 +59,7 @@ void staff_show_footer() {
 
 const string STAFF_TABLE_NAME = "STAFF";
 
-void addStaff(sqlite3* db) {
+void addStaff(sqlite3* db) { // Добавление нового водителя в БД
     char* zErrMsg = 0;
     string firstname;
     string secondname;
@@ -72,9 +72,9 @@ void addStaff(sqlite3* db) {
 
     setlocale(LC_ALL, "C");
     cout << "\n";
-    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
+    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg); // Выболнение SQL запроса
 
-    if (rc != SQLITE_OK) {
+    if (rc != SQLITE_OK) { // Выводим ошибки, если они есть
         fprintf(stderr, "SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
     }
@@ -84,24 +84,16 @@ void addStaff(sqlite3* db) {
     }
 }
 
-static int staff_out_callback(void* data, int argc, char** argv, char** azColName) {
+static int staff_out_callback(void* data, int argc, char** argv, char** azColName) { // Обработчик вывода данных из БД
     staff_split();
     staff_show_row(argv[0], argv[1], argv[2]);
     return 0;
 }
 
-
-static int name_out_callback(void* data, int argc, char** argv, char** azColName) {
-    cout << argv[0] << " " << argv[1];
-    return 0;
-}
-
-void getStaffList(sqlite3* db) {
+void getStaffList(sqlite3* db) { // Получение данных о водителях из БД
     char* zErrMsg = 0;
 
-    string sql = "SELECT * from " + STAFF_TABLE_NAME;
-
-    /* Execute SQL statement */
+    string sql = "SELECT * from " + STAFF_TABLE_NAME; // Формирование SQL запроса
 
     const char* data = "Callback function called";
 
@@ -109,8 +101,8 @@ void getStaffList(sqlite3* db) {
     setlocale(LC_ALL, "C");
     cout << "\n";
     staff_show_header(); // Печать шапки таблицы
-    int rc = sqlite3_exec(db, sql.c_str(), staff_out_callback, NULL, &zErrMsg);
-    staff_show_footer();
+    int rc = sqlite3_exec(db, sql.c_str(), staff_out_callback, NULL, &zErrMsg); // Выполнение SQL запроса
+    staff_show_footer(); // Печать подвала таблицы
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "SQL error: %s\n", zErrMsg);
@@ -119,7 +111,7 @@ void getStaffList(sqlite3* db) {
 
 }
 
-void removeStaff(sqlite3* db) {
+void removeStaff(sqlite3* db) { // Удаление водителя из БД
     getStaffList(db);
     char* zErrMsg = 0;
     string eid;
@@ -130,11 +122,11 @@ void removeStaff(sqlite3* db) {
         cout << "Удаление отменено.\n";
         return;
     }
-    string sql = "DELETE from " + STAFF_TABLE_NAME + " WHERE id = " + eid;
-    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg);
+    string sql = "DELETE from " + STAFF_TABLE_NAME + " WHERE id = " + eid; // Формирование SQL запроса
+    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg); // Выполнение SQL запроса
 
-    string sqlh = "DELETE from ROUTES WHERE staff_id = " + eid;
-    int hc = sqlite3_exec(db, sqlh.c_str(), NULL, NULL, &zErrMsg);
+    string sqlh = "DELETE from ROUTES WHERE staff_id = " + eid; // Формирование SQL запроса
+    int hc = sqlite3_exec(db, sqlh.c_str(), NULL, NULL, &zErrMsg); // Выполнение SQL запроса
 
     if (rc != SQLITE_OK) {
         cout << "Ошибка! Вы ввели неправильный id.";
