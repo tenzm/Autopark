@@ -2,4 +2,4 @@
 #include <string>
 using namespace std;
 
-string cell_format(string str, int width);
+string cell_format(string str, int width); 
