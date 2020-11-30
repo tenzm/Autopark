@@ -7,7 +7,6 @@
 #include <Format.h>
 using namespace std;
 
-
 const int CELL_WIDTH = 18; // Ширина ячейки таблицы
 
 const char TOP_LEFT_KORNER_CODE = (char)218; // Символ верхнего левого угла "┌"
@@ -23,14 +22,22 @@ const char HORIZONTAL_SPLIT_CODE = (char)196; // Символ разделите
 const char VERTICAL_SPLIT_CODE = (char)179; // Символ разделителя столбцов "│"
 
 void route_split() {
-    cout << LEFT_HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << HORIZONTAL_VERTICAL_SPLIT_CODE;
-    cout << HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << RIGHT_HORIZONTAL_SPLIT_CODE << endl;
+    cout << LEFT_HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) 
+        << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << HORIZONTAL_VERTICAL_SPLIT_CODE;
+    cout << HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) 
+        << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << HORIZONTAL_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << RIGHT_HORIZONTAL_SPLIT_CODE << endl;
 
 }
 
 void route_show_row(string id, string a, string b, string c, string d, string e, string f) {
-    cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw(CELL_WIDTH - 3) << cell_format(id, CELL_WIDTH) << VERTICAL_SPLIT_CODE
-        << setw(CELL_WIDTH - 2) << cell_format(a, CELL_WIDTH) << VERTICAL_SPLIT_CODE << setw(CELL_WIDTH - 2) << cell_format(b, CELL_WIDTH) << VERTICAL_SPLIT_CODE;
+    cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw(CELL_WIDTH - 3) << cell_format(id, CELL_WIDTH) 
+        << VERTICAL_SPLIT_CODE << setw(CELL_WIDTH - 2) << cell_format(a, CELL_WIDTH) 
+        << VERTICAL_SPLIT_CODE << setw(CELL_WIDTH - 2) << cell_format(b, CELL_WIDTH) << VERTICAL_SPLIT_CODE;
     cout << " " << setfill(' ') << setw(CELL_WIDTH - 3) << cell_format(e, CELL_WIDTH) << VERTICAL_SPLIT_CODE
         << setw(CELL_WIDTH - 2) << cell_format(f, CELL_WIDTH) << VERTICAL_SPLIT_CODE;
     cout << " " << setfill(' ') << setw(CELL_WIDTH - 3) << cell_format(c, CELL_WIDTH)<< VERTICAL_SPLIT_CODE
@@ -41,11 +48,19 @@ void route_show_header() {
     setlocale(LC_ALL, "Russian");
     cout << "Список маршрутов:\n\n";
     setlocale(LC_ALL, "C");
-    cout << TOP_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_VERTICAL_SPLIT_CODE;
-    cout << HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << TOP_RIGHT_KORNER_CODE << endl;
+    cout << TOP_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) 
+        << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << TOP_VERTICAL_SPLIT_CODE;
+    cout << HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) 
+        << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << TOP_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << TOP_RIGHT_KORNER_CODE << endl;
 
-    cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH - 1) / 2) << "ID" << setfill(' ') << setw((CELL_WIDTH - 1) / 2 - CELL_WIDTH % 2)
-        << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH) / 2 + CELL_WIDTH % 2 + 3);
+    cout << VERTICAL_SPLIT_CODE << setfill(' ') << setw((CELL_WIDTH - 1) / 2) << "ID" 
+        << setfill(' ') << setw((CELL_WIDTH - 1) / 2 - CELL_WIDTH % 2) << VERTICAL_SPLIT_CODE 
+        << setfill(' ') << setw((CELL_WIDTH) / 2 + CELL_WIDTH % 2 + 3);
     setlocale(LC_ALL, "Russian");
     cout << "Водитель";
     setlocale(LC_ALL, "C");
@@ -78,9 +93,15 @@ void route_show_header() {
 }
 
 void route_show_footer() {
-    cout << BOTTOM_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_VERTICAL_SPLIT_CODE;
-    cout << HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) << BOTTOM_RIGHT_KORNER_CODE << endl;
-
+    cout << BOTTOM_LEFT_KORNER_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) 
+        << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << BOTTOM_VERTICAL_SPLIT_CODE;
+    cout << HORIZONTAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 2) 
+        << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << BOTTOM_VERTICAL_SPLIT_CODE << setfill(HORIZONTAL_SPLIT_CODE) << setw(CELL_WIDTH - 1) 
+        << BOTTOM_RIGHT_KORNER_CODE << endl;
 }
 
 
@@ -121,7 +142,10 @@ void addRoute(sqlite3* db) { // Добавление маршрута в БД
     cout << "Укажите время прибытия: ";
     cin >> arrivalTime;
 
-    string sql = "INSERT INTO " + ROUTES_TABLE_NAME + " (staff_id, bus_id, departure_time, arrival_time, departure_place, arrival_place) VALUES ('" + tabID + "','" + busID + "','" + departureTime + "','" + arrivalTime + "','" + departurePlace + "','" + arrivalPlace + "')"; // Формирование SQL запроса
+    string sql = "INSERT INTO " + ROUTES_TABLE_NAME + " (staff_id, bus_id, departure_time, "
+        +"arrival_time, departure_place, arrival_place) VALUES ('" + tabID + "','" + busID + "','" 
+        + departureTime + "','" + arrivalTime + "','" + departurePlace + "','" 
+        + arrivalPlace + "')"; // Формирование SQL запроса
 
     setlocale(LC_ALL, "C");
     cout << "\n";
@@ -137,30 +161,24 @@ void addRoute(sqlite3* db) { // Добавление маршрута в БД
     }
 }
 
-static int route_out_callback(void* data, int argc, char** argv, char** azColName) { // Обработчик вывода данных из БД
+// Обработчик вывода данных из БД
+static int route_out_callback(void* data, int argc, char** argv, char** azColName) { 
     sqlite3 *db = (sqlite3*)data;
-    string staff_sql = "SELECT firstname, secondname from STAFF WHERE id = " + string(argv[1]); // Формирование запроса на получение данных о водителе
-    string bus_sql = "SELECT car_number from BUSES WHERE id = " + string(argv[2]); // Формирование запроса на получение данных об автобусе
-
-    /* Execute SQL statement */
-
+    // Формирование запроса на получение данных о водителе
+    string staff_sql = "SELECT firstname, secondname from STAFF WHERE id = " + string(argv[1]); 
+    // Формирование запроса на получение данных об автобусе
+    string bus_sql = "SELECT car_number from BUSES WHERE id = " + string(argv[2]); 
     setlocale(LC_ALL, "C");
-
     sqlite3_stmt* stmt;
     string fullname = ""; // Полное имя
-
     sqlite3_prepare(db, staff_sql.c_str(), 1000, &stmt, NULL); // Готовимся к выполнению запроса
-
     sqlite3_step(stmt); // Считываем первую группу элементов
     string firstname((char*)sqlite3_column_text(stmt, 0)); // Получаем имя водителя
     string secondname((char*)sqlite3_column_text(stmt, 1)); // Получаем фамилию водителя
     fullname = firstname + " " + secondname;
-
     sqlite3_prepare(db, bus_sql.c_str(), 1000, &stmt, NULL);// Готовимся к выполнению запроса
-
     sqlite3_step(stmt);// Считываем первую группу элементов
     string bus_name((char*)sqlite3_column_text(stmt, 0)); // Получаем номер автобуса
-
     sqlite3_finalize(stmt); // Завершаем считывание
     route_split(); // Печатаем разделители
     route_show_row(argv[0], fullname, bus_name, argv[3], argv[4], argv[5], argv[6]); // Печатаем данные
@@ -169,19 +187,14 @@ static int route_out_callback(void* data, int argc, char** argv, char** azColNam
 
 void getRouteList(sqlite3* db) { // Получение списка маршрутов
     char* zErrMsg = 0;
-
     string sql = "SELECT * from " + ROUTES_TABLE_NAME; // Формирование SQL запроса
-
     route_show_header(); // Печать шапки таблицы
-
     int rc = sqlite3_exec(db, sql.c_str(), route_out_callback, (void*)db, &zErrMsg); // Выполнение SQL запроса
     route_show_footer(); // Печать подвала таблицы
-
     if (rc != SQLITE_OK) { // Выводим ошибки, если они есть
         fprintf(stderr, "SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
     }
-
 }
 
 void removeRoute(sqlite3* db) { // Удаление маршрута
@@ -199,7 +212,6 @@ void removeRoute(sqlite3* db) { // Удаление маршрута
     } while (!id_exist(db, ROUTES_TABLE_NAME, eid));
     string sql = "DELETE from " + ROUTES_TABLE_NAME + " WHERE id = " + eid; // Формирование SQL запроса
     int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg); // Выполнение SQL запроса
-
     setlocale(LC_ALL, "Russian");
     cout << "\nЗапись успешно удалена!\n";
 }
