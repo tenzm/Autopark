@@ -52,7 +52,7 @@ void bus_show_footer() {
 
 
 
-const string BUSES_TABLE_NAME = "BUSES";
+string BUSES_TABLE_NAME = "BUSES";
 
 void addBus(sqlite3* db) { // Добавление нового автобуса
     char* zErrMsg = 0;
@@ -72,7 +72,7 @@ void addBus(sqlite3* db) { // Добавление нового автобуса
     }
     else {
         setlocale(LC_ALL, "Russian");
-        cout << "\nЗапись успешно добавлена!";
+        cout << "Запись успешно добавлена.\n";
     }
 }
 
@@ -104,26 +104,23 @@ void removeBus(sqlite3* db) { // Удаление автобуса из БД
     getBusesList(db);
     char* zErrMsg = 0;
     string eid;
-    setlocale(LC_ALL, "Russian");
-    cout << "\nВведите id для удаления (-1 для отмены): ";
-    cin >> eid;
-    if (eid == "-1") {
-        cout << "Удаление отменено.\n";
-        return;
-    }
+    do {
+        setlocale(LC_ALL, "Russian");
+        cout << "\nВведите id для удаления (-1 для отмены): ";
+        cin >> eid;
+        if (eid == "-1") {
+            cout << "Удаление отменено.\n";
+            return;
+        }
+    } while (!id_exist(db, BUSES_TABLE_NAME, eid));
     string sql = "DELETE from " + BUSES_TABLE_NAME + " WHERE id = " + eid;
     int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg); // Удаление автобуса из БД
 
     string sqlh = "DELETE from ROUTES WHERE bus_id = " + eid;
     int hc = sqlite3_exec(db, sqlh.c_str(), NULL, NULL, &zErrMsg); // Удаление всех маршрутов, связанных с данным автобусом
 
-    if (rc != SQLITE_OK) {
-        cout << "Ошибка! Вы ввели неправильный id.";
-    }
-    else {
-        setlocale(LC_ALL, "Russian");
-        cout << "\nЗапись успешно удалена!";
-    }
+    setlocale(LC_ALL, "Russian");
+    cout << "\nЗапись успешно удалена!\n";
 }
 
 string getBusesTable() { // Получить имя таблицы в БД

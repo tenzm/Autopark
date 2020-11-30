@@ -102,10 +102,16 @@ void addRoute(sqlite3* db) { // Добавление маршрута в БД
     string departurePlace;
     string arrivalPlace;
     setlocale(LC_ALL, "Russian");
-    cout << "Введите табельный номер водителя: ";
-    cin >> tabID;
-    cout << "Введите ID автобуса: ";
-    cin >> busID;
+    do
+    {
+        cout << "Введите табельный номер водителя: ";
+        cin >> tabID;
+    } while (!id_exist(db, "STAFF", tabID));
+    do
+    {
+        cout << "Введите ID автобуса: ";
+        cin >> busID;
+    } while (!id_exist(db, "BUSES", busID));
     cout << "Укажите пункт отправления: ";
     cin >> departurePlace;
     cout << "Укажите пункт прибытия: ";
@@ -127,7 +133,7 @@ void addRoute(sqlite3* db) { // Добавление маршрута в БД
     }
     else {
         setlocale(LC_ALL, "Russian");
-        cout << "\nЗапись успешно добавлена!";
+        cout << "Запись успешно добавлена!\n";
     }
 }
 
@@ -182,21 +188,18 @@ void removeRoute(sqlite3* db) { // Удаление маршрута
     getRouteList(db);
     char* zErrMsg = 0;
     string eid;
-    setlocale(LC_ALL, "Russian");
-    cout << "\nВведите id для удаления (-1 для отмены): ";
-    cin >> eid;
-    if (eid == "-1") {
-        cout << "Удаление отменено.\n";
-        return;
-    }
+    do {
+        setlocale(LC_ALL, "Russian");
+        cout << "\nВведите id для удаления (-1 для отмены): ";
+        cin >> eid;
+        if (eid == "-1") {
+            cout << "Удаление отменено.\n";
+            return;
+        }
+    } while (!id_exist(db, ROUTES_TABLE_NAME, eid));
     string sql = "DELETE from " + ROUTES_TABLE_NAME + " WHERE id = " + eid; // Формирование SQL запроса
     int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg); // Выполнение SQL запроса
 
-    if (rc != SQLITE_OK) { // Выводим ошибки, если они есть
-        cout << "Ошибка! Вы ввели неправильный id.";
-    }
-    else {
-        setlocale(LC_ALL, "Russian");
-        cout << "\nЗапись успешно удалена!";
-    }
+    setlocale(LC_ALL, "Russian");
+    cout << "\nЗапись успешно удалена!\n";
 }

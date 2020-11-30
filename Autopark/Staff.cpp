@@ -80,7 +80,7 @@ void addStaff(sqlite3* db) { // Добавление нового водител
     }
     else {
         setlocale(LC_ALL, "Russian");
-        cout << "\nЗапись успешно добавлена!";
+        cout << "Запись успешно добавлена!\n";
     }
 }
 
@@ -115,26 +115,26 @@ void removeStaff(sqlite3* db) { // Удаление водителя из БД
     getStaffList(db);
     char* zErrMsg = 0;
     string eid;
-    setlocale(LC_ALL, "Russian");
-    cout << "\nВведите id для удаления (-1 для отмены): ";
-    cin >> eid;
-    if (eid == "-1") {
-        cout << "Удаление отменено.\n";
-        return;
-    }
-    string sql = "DELETE from " + STAFF_TABLE_NAME + " WHERE id = " + eid; // Формирование SQL запроса
-    int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg); // Выполнение SQL запроса
+    
 
-    string sqlh = "DELETE from ROUTES WHERE staff_id = " + eid; // Формирование SQL запроса
-    int hc = sqlite3_exec(db, sqlh.c_str(), NULL, NULL, &zErrMsg); // Выполнение SQL запроса
-
-    if (rc != SQLITE_OK) {
-        cout << "Ошибка! Вы ввели неправильный id.";
-    }
-    else {
+    do {
         setlocale(LC_ALL, "Russian");
-        cout << "\nЗапись успешно удалена!";
-    }
+        cout << "\nВведите id для удаления (-1 для отмены): ";
+        cin >> eid;
+        if (eid == "-1") {
+            cout << "Удаление отменено.\n";
+            return;
+        }
+    } while (!id_exist(db, STAFF_TABLE_NAME, eid));
+
+        string sql = "DELETE from " + STAFF_TABLE_NAME + " WHERE id = " + eid; // Формирование SQL запроса
+        int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &zErrMsg); // Выполнение SQL запроса
+
+        string sqlh = "DELETE from ROUTES WHERE staff_id = " + eid; // Формирование SQL запроса
+        int hc = sqlite3_exec(db, sqlh.c_str(), NULL, NULL, &zErrMsg); // Выполнение SQL запроса
+
+        setlocale(LC_ALL, "Russian");
+        cout << "\nЗапись успешно удалена!\n";
 }
 
 string getStaffTable() {
